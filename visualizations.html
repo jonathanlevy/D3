@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8" />
+    
+    
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>    
+    
+  </head>
+  
+  <body>
+    D3 Clustering example using IMDB movie database. Circle size depicts size of production budget; color intensity shows IMDB rating (light to dark) and clustering, domestic box office.
+    <img src = "imdbGrossRankings.png">
+    
+    D3 Example of Projecting a map of the U.S.
+    <script>
+      
+    
+          
+      var canvas = d3.select("body") .append("svg")
+          .attr("width", 1520)
+          .attr("height", 1400)
+
+      d3.json("states.geojson", function (data){
+        
+        var group = canvas.selectAll("g")
+        .data(data.features)
+        .enter()
+        .append("g")
+
+        var projection = d3.geo.mercator().scale(800) .translate([2400, 1480]);
+        var path = d3.geo.path() .projection(projection);
+
+        var areas = group.append("path")
+            .attr("d", path)
+            .attr("class", "area")
+            .attr("fill", "steelblue");
+
+            group.append("text")
+              .attr("x", function (d) {return path.centroid(d)[0]; })
+              .attr("y", function (d) {return path.centroid(d)[1]; })
+              .attr("text-anchor", "middle")
+              .text(function (d) {return d.properties.NAME; })
+
+
+      });
+      
+      
+      
+          
+    </script>
+    
+  </body>
+  
+  
+</html>
